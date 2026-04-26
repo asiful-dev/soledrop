@@ -5,12 +5,19 @@ import { items } from "@/lib/db/schema";
 import { itemSchema } from "@/lib/validations/item";
 import { applyRateLimit } from "@/lib/rate-limit";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const allItems = await db
-      .select()
-      .from(items)
-      .orderBy(desc(items.createdAt));
+    const limitParam = request.nextUrl.searchParams.get("limit");
+    const parsedLimit = limitParam ? Number.parseInt(limitParam, 10) : null;
+    const safeLimit =
+      parsedLimit && Number.isFinite(parsedLimit) && parsedLimit > 0
+        ? Math.min(parsedLimit, 100)
+        : null;
+
+    const baseQuery = db.select().from(items).orderBy(desc(items.createdAt));
+    const allItems = safeLimit
+      ? await baseQuery.limit(safeLimit)
+      : await baseQuery;
     return NextResponse.json(allItems);
   } catch {
     return NextResponse.json(
