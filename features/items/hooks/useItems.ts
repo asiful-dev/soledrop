@@ -31,9 +31,11 @@ export function useItems() {
   const deleteItem = async (id: string) => {
     const res = await fetch(`/api/items/${id}`, { method: "DELETE" });
 
-    if (res.ok) {
-      setItems((prev) => prev.filter((item) => item.id !== id));
+    if (!res.ok) {
+      throw new Error("Failed to delete item");
     }
+
+    setItems((prev) => prev.filter((item) => item.id !== id));
   };
 
   return { items, loading, error, deleteItem };
