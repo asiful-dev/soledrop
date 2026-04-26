@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { eq } from "drizzle-orm";
-import { ChevronLeft } from "lucide-react";
+import { CaretLeftIcon } from "@phosphor-icons/react/ssr";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { items } from "@/lib/db/schema";
@@ -55,7 +55,7 @@ export default async function ItemDetailPage({ params }: { params: Params }) {
         asChild
       >
         <Link href="/items">
-          <ChevronLeft className="mr-1 h-4 w-4" />
+          <CaretLeftIcon className="mr-1 h-4 w-4" />
           Back to Drops
         </Link>
       </Button>

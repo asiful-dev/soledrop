@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRightIcon } from "@phosphor-icons/react";
 import type { Item } from "@/lib/db/schema";
 import { Button } from "@/shared/ui-components/controls/button";
 import { Badge } from "@/shared/ui-components/controls/badge";
@@ -48,7 +48,7 @@ export default function FeaturedDropsSection() {
             href="/items"
             className="inline-flex items-center gap-1 text-sm text-primary hover:text-primary-hover"
           >
-            View All Drops <ArrowRight className="h-4 w-4" />
+            View All Drops <ArrowRightIcon className="h-4 w-4" />
           </Link>
         </div>
 

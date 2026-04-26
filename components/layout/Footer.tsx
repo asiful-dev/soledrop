@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { Zap, Globe, Send, Camera } from "lucide-react";
+import {
+  LightningIcon,
+  GlobeIcon,
+  PaperPlaneIcon,
+  CameraIcon,
+} from "@phosphor-icons/react/ssr";
 
 const FOOTER_LINKS = {
   Shop: [
@@ -22,7 +27,7 @@ export default function Footer() {
               href="/"
               className="mb-3 flex items-center gap-2 text-xl font-bold"
             >
-              <Zap className="h-5 w-5 text-accent" />
+              <LightningIcon className="h-5 w-5 text-accent" />
               <span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
                 SoleDrop
               </span>
@@ -31,7 +36,7 @@ export default function Footer() {
               Fresh kicks, no cap. Your go-to spot for the dopest sneaker drops.
             </p>
             <div className="mt-4 flex gap-4">
-              {[Globe, Send, Camera].map((Icon, i) => (
+              {[GlobeIcon, PaperPlaneIcon, CameraIcon].map((Icon, i) => (
                 <a
                   key={i}
                   href="#"

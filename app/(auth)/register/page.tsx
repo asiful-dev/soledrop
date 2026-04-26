@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { Zap } from "lucide-react";
+import { LightningIcon } from "@phosphor-icons/react";
 import { registerSchema, type RegisterData } from "@/lib/validations/auth";
 import { registerWithEmail, loginWithGoogle } from "@/lib/firebase/auth";
 import { Button } from "@/shared/ui-components/controls/button";
@@ -73,7 +73,7 @@ export default function RegisterPage() {
     >
       <div className="mb-8 text-center">
         <div className="mb-3 flex justify-center">
-          <Zap className="h-8 w-8 text-accent" />
+          <LightningIcon className="h-8 w-8 text-accent" />
         </div>
         <h1 className="text-2xl font-bold text-white">Create an account</h1>
         <p className="mt-1 text-sm text-muted">

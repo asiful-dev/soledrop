@@ -1,28 +1,33 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Truck, Lock, Bell } from "lucide-react";
+import {
+  ShieldIcon,
+  TruckIcon,
+  LockIcon,
+  BellIcon,
+} from "@phosphor-icons/react";
 
 const FEATURES = [
   {
     title: "Verified Kicks",
     description: "Every listing is reviewed so you can shop confidently.",
-    icon: Shield,
+    icon: ShieldIcon,
   },
   {
     title: "Lightning Fast Delivery",
     description: "Quick shipping so your next pair lands without delay.",
-    icon: Truck,
+    icon: TruckIcon,
   },
   {
     title: "Secure Checkout",
     description: "Protected payments with trusted checkout flow.",
-    icon: Lock,
+    icon: LockIcon,
   },
   {
     title: "Drop Alerts",
     description: "Get notified before the next hyped release goes live.",
-    icon: Bell,
+    icon: BellIcon,
   },
 ];
 

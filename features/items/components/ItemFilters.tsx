@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { MagnifyingGlassIcon } from "@phosphor-icons/react";
 import { Input } from "@/shared/ui-components/controls/input";
 import {
   Select,
@@ -47,7 +47,7 @@ export default function ItemFilters({
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
       <div className="relative flex-1">
-        <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted" />
+        <MagnifyingGlassIcon className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted" />
         <Input
           placeholder="Search drops... (fuzzy search)"
           value={query}

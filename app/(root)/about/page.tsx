@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Shield, Truck, Users, Zap } from "lucide-react";
+import {
+  ShieldIcon,
+  TruckIcon,
+  UsersIcon,
+  LightningIcon,
+} from "@phosphor-icons/react/ssr";
 
 export const metadata: Metadata = {
   title: "About — SoleDrop",
@@ -22,22 +27,22 @@ const VALUES = [
   {
     title: "Culture First",
     description: "Built by sneakerheads, for sneakerheads.",
-    icon: Users,
+    icon: UsersIcon,
   },
   {
     title: "Verified Drops",
     description: "Every listing is reviewed for quality and trust.",
-    icon: Shield,
+    icon: ShieldIcon,
   },
   {
     title: "Fast Experience",
     description: "Smooth browsing, quick listing, faster checkout.",
-    icon: Truck,
+    icon: TruckIcon,
   },
   {
     title: "Always Fresh",
     description: "New heat lands daily across top brands.",
-    icon: Zap,
+    icon: LightningIcon,
   },
 ];
 

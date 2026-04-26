@@ -5,7 +5,7 @@ import { Dialog as SheetPrimitive } from "radix-ui";
 
 import { cn } from "@/shared/utils/shadcn-config";
 import { Button } from "@/shared/ui-components/controls/button";
-import { XIcon } from "lucide-react";
+import { XIcon } from "@phosphor-icons/react";
 
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />;

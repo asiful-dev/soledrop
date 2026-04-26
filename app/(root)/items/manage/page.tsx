@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { Eye, Plus, Trash2 } from "lucide-react";
+import { EyeIcon, PlusIcon, TrashIcon } from "@phosphor-icons/react";
 import { useItems } from "@/features/items/hooks/useItems";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import SkeletonCard from "@/components/shared/SkeletonCard";
@@ -55,7 +55,7 @@ export default function ManageItemsPage() {
         </div>
         <Button asChild>
           <Link href="/items/add" className="inline-flex items-center gap-1">
-            <Plus className="h-4 w-4" /> Add New
+            <PlusIcon className="h-4 w-4" /> Add New
           </Link>
         </Button>
       </div>
@@ -115,7 +115,7 @@ export default function ManageItemsPage() {
                       <div className="flex items-center justify-end gap-2">
                         <Button size="sm" variant="outline" asChild>
                           <Link href={`/items/${item.id}`}>
-                            <Eye className="h-4 w-4" />
+                            <EyeIcon className="h-4 w-4" />
                             View
                           </Link>
                         </Button>
@@ -124,7 +124,7 @@ export default function ManageItemsPage() {
                           variant="destructive"
                           onClick={() => handleDelete(item.id, item.title)}
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <TrashIcon className="h-4 w-4" />
                           Delete
                         </Button>
                       </div>

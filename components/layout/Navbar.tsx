@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Menu, X, Zap } from "lucide-react";
+import { ListIcon, XIcon, LightningIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { logout } from "@/lib/firebase/auth";
@@ -47,7 +47,7 @@ export default function Navbar() {
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-          <Zap className="h-5 w-5 text-accent" />
+          <LightningIcon className="h-5 w-5 text-accent" />
           <span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
             SoleDrop
           </span>
@@ -132,9 +132,9 @@ export default function Navbar() {
           aria-label="Toggle menu"
         >
           {mobileOpen ? (
-            <X className="h-5 w-5" />
+            <XIcon className="h-5 w-5" />
           ) : (
-            <Menu className="h-5 w-5" />
+            <ListIcon className="h-5 w-5" />
           )}
         </button>
       </div>
