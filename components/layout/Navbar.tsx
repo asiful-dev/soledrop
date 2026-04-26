@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ListIcon, XIcon, MoonIcon, SunIcon } from "@phosphor-icons/react";
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 import { useTheme } from "next-themes";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { logout } from "@/lib/firebase/auth";
@@ -35,13 +35,7 @@ export default function Navbar() {
   const { resolvedTheme, setTheme } = useTheme();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const mounted = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
-
-  const isDark = mounted ? resolvedTheme === "dark" : true;
+  const isDark = resolvedTheme === "dark" || resolvedTheme === undefined;
   const logoSrc = isDark ? "/dark.png" : "/light.png";
 
   const handleThemeToggle = () => {
