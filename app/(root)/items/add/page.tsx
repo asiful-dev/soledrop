@@ -103,7 +103,9 @@ export default function AddItemPage() {
         animate={{ opacity: 1, y: 0 }}
         className="rounded-2xl border border-border bg-surface p-8"
       >
-        <h1 className="mb-1 text-2xl font-bold text-white">Add a Drop 🔥</h1>
+        <h1 className="mb-1 text-2xl font-bold text-foreground">
+          Add a Drop 🔥
+        </h1>
         <p className="mb-8 text-sm text-muted">
           List your kicks for the culture
         </p>

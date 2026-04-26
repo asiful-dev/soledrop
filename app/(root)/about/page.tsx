@@ -51,7 +51,7 @@ export default function AboutPage() {
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
       <div className="mb-16 text-center">
         <div className="mb-4 text-5xl">👟</div>
-        <h1 className="mb-4 text-4xl font-black text-white">
+        <h1 className="mb-4 text-4xl font-black text-foreground">
           About{" "}
           <span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
             SoleDrop
@@ -76,7 +76,7 @@ export default function AboutPage() {
       </div>
 
       <div className="mb-12 rounded-2xl border border-border bg-surface p-8">
-        <h2 className="mb-3 text-xl font-bold text-white">Our Mission</h2>
+        <h2 className="mb-3 text-xl font-bold text-foreground">Our Mission</h2>
         <p className="leading-relaxed text-muted">
           SoleDrop started in a dorm room with one goal: make sneaker culture
           accessible. We&apos;re sick of bots clearing out drops in
@@ -86,7 +86,9 @@ export default function AboutPage() {
       </div>
 
       <div className="mb-12">
-        <h2 className="mb-6 text-xl font-bold text-white">What We Stand For</h2>
+        <h2 className="mb-6 text-xl font-bold text-foreground">
+          What We Stand For
+        </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {VALUES.map(({ title, description, icon: Icon }) => (
             <div
@@ -94,7 +96,7 @@ export default function AboutPage() {
               className="rounded-xl border border-border bg-surface p-5 transition-colors duration-300 hover:border-primary/40"
             >
               <Icon className="h-5 w-5 text-accent" />
-              <h3 className="mt-3 text-base font-semibold text-white">
+              <h3 className="mt-3 text-base font-semibold text-foreground">
                 {title}
               </h3>
               <p className="mt-1 text-sm text-muted">{description}</p>
@@ -104,7 +106,7 @@ export default function AboutPage() {
       </div>
 
       <div>
-        <h2 className="mb-6 text-xl font-bold text-white">The Team</h2>
+        <h2 className="mb-6 text-xl font-bold text-foreground">The Team</h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
           {TEAM.map(({ name, role, emoji }) => (
             <div
@@ -112,7 +114,7 @@ export default function AboutPage() {
               className="rounded-xl border border-border bg-surface p-6 text-center transition-colors duration-300 hover:border-primary/30"
             >
               <div className="mb-3 text-4xl">{emoji}</div>
-              <div className="font-semibold text-white">{name}</div>
+              <div className="font-semibold text-foreground">{name}</div>
               <div className="mt-1 text-xs text-muted">{role}</div>
             </div>
           ))}

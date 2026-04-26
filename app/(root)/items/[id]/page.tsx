@@ -51,7 +51,7 @@ export default async function ItemDetailPage({ params }: { params: Params }) {
       <Button
         variant="ghost"
         size="sm"
-        className="mb-6 text-muted hover:text-white"
+        className="mb-6 text-muted hover:text-foreground"
         asChild
       >
         <Link href="/items">
@@ -82,7 +82,7 @@ export default async function ItemDetailPage({ params }: { params: Params }) {
             <Badge className="mb-3 bg-primary/80 text-white">
               {item.category}
             </Badge>
-            <h1 className="text-3xl font-bold text-white">{item.title}</h1>
+            <h1 className="text-3xl font-bold text-foreground">{item.title}</h1>
             <p className="mt-2 text-muted">{item.shortDescription}</p>
           </div>
 
@@ -91,7 +91,9 @@ export default async function ItemDetailPage({ params }: { params: Params }) {
           </div>
 
           <div className="space-y-3 rounded-xl border border-border bg-surface p-4">
-            <h3 className="text-sm font-semibold text-white">Specifications</h3>
+            <h3 className="text-sm font-semibold text-foreground">
+              Specifications
+            </h3>
             {[
               { label: "Brand", value: item.brand },
               { label: "Category", value: item.category },
@@ -110,13 +112,13 @@ export default async function ItemDetailPage({ params }: { params: Params }) {
             ].map(({ label, value }) => (
               <div key={label} className="flex justify-between text-sm">
                 <span className="text-muted">{label}</span>
-                <span className="font-medium text-white">{value}</span>
+                <span className="font-medium text-foreground">{value}</span>
               </div>
             ))}
           </div>
 
           <div>
-            <h3 className="mb-2 text-sm font-semibold text-white">
+            <h3 className="mb-2 text-sm font-semibold text-foreground">
               About this drop
             </h3>
             <p className="text-sm leading-relaxed text-muted">
@@ -128,7 +130,9 @@ export default async function ItemDetailPage({ params }: { params: Params }) {
 
       {relatedFiltered.length > 0 && (
         <div className="mt-16">
-          <h2 className="mb-6 text-xl font-bold text-white">Similar Drops</h2>
+          <h2 className="mb-6 text-xl font-bold text-foreground">
+            Similar Drops
+          </h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {relatedFiltered.map((relatedItem, index) => (
               <ItemCard key={relatedItem.id} item={relatedItem} index={index} />

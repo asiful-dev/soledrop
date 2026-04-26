@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -7,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { LightningIcon } from "@phosphor-icons/react";
 import { registerSchema, type RegisterData } from "@/lib/validations/auth";
 import { registerWithEmail, loginWithGoogle } from "@/lib/firebase/auth";
 import { Button } from "@/shared/ui-components/controls/button";
@@ -73,9 +73,24 @@ export default function RegisterPage() {
     >
       <div className="mb-8 text-center">
         <div className="mb-3 flex justify-center">
-          <LightningIcon className="h-8 w-8 text-accent" />
+          <Image
+            src="/light.png"
+            alt="SoleDrop"
+            width={170}
+            height={46}
+            className="h-10 w-auto dark:hidden"
+          />
+          <Image
+            src="/dark.png"
+            alt="SoleDrop"
+            width={170}
+            height={46}
+            className="hidden h-10 w-auto dark:block"
+          />
         </div>
-        <h1 className="text-2xl font-bold text-white">Create an account</h1>
+        <h1 className="text-2xl font-bold text-foreground">
+          Create an account
+        </h1>
         <p className="mt-1 text-sm text-muted">
           Join SoleDrop and start copping heat
         </p>
@@ -90,7 +105,7 @@ export default function RegisterPage() {
             id="email"
             type="email"
             placeholder="you@soledrop.com"
-            className="border-border bg-background text-white placeholder:text-muted focus:border-primary"
+            className="border-border bg-background text-foreground placeholder:text-muted focus:border-primary"
             {...register("email")}
           />
           {errors.email && (
@@ -106,7 +121,7 @@ export default function RegisterPage() {
             id="password"
             type="password"
             placeholder="••••••••"
-            className="border-border bg-background text-white placeholder:text-muted focus:border-primary"
+            className="border-border bg-background text-foreground placeholder:text-muted focus:border-primary"
             {...register("password")}
           />
           {errors.password && (
@@ -122,7 +137,7 @@ export default function RegisterPage() {
             id="confirmPassword"
             type="password"
             placeholder="••••••••"
-            className="border-border bg-background text-white placeholder:text-muted focus:border-primary"
+            className="border-border bg-background text-foreground placeholder:text-muted focus:border-primary"
             {...register("confirmPassword")}
           />
           {errors.confirmPassword && (
@@ -154,7 +169,7 @@ export default function RegisterPage() {
         variant="outline"
         disabled={googleLoading}
         onClick={handleGoogle}
-        className="w-full border-border bg-background text-white hover:bg-surface"
+        className="w-full border-border bg-background text-foreground hover:bg-surface"
       >
         <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
           <path

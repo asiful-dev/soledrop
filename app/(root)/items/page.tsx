@@ -50,7 +50,9 @@ export default function ItemsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
       <div className="mb-8">
-        <h1 className="mb-1 text-3xl font-bold text-white">All Drops 🔥</h1>
+        <h1 className="mb-1 text-3xl font-bold text-foreground">
+          All Drops 🔥
+        </h1>
         <p className="text-sm text-muted">{filtered.length} pairs found</p>
       </div>
 

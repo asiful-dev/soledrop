@@ -58,26 +58,26 @@
 }
 
 :root {
-  --background: #0a0a0a;
-  --surface: #111111;
-  --foreground: #f4f4f5;
-  --card: #111111;
-  --card-foreground: #f4f4f5;
-  --popover: #111111;
-  --popover-foreground: #f4f4f5;
-  --primary: #7c3aed;
-  --primary-hover: #8b5cf6;
+  --background: #f6f7fb;
+  --surface: #ffffff;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #6d28d9;
+  --primary-hover: #7c3aed;
   --primary-foreground: #ffffff;
-  --secondary: #111111;
-  --secondary-foreground: #f4f4f5;
-  --muted: #a1a1aa;
-  --muted-foreground: #d4d4d8;
-  --accent: #a3e635;
-  --accent-foreground: #111111;
+  --secondary: #eef2ff;
+  --secondary-foreground: #1f2937;
+  --muted: #64748b;
+  --muted-foreground: #475569;
+  --accent: #7c3aed;
+  --accent-foreground: #ffffff;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #27272a;
-  --input: #27272a;
-  --ring: oklch(0.708 0 0);
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: oklch(0.74 0 0);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -159,5 +159,13 @@
   }
   html {
     @apply font-sans;
+  }
+
+  :root:not(.dark) .text-white {
+    color: var(--foreground) !important;
+  }
+
+  :root:not(.dark) .hover\:text-white:hover {
+    color: var(--foreground) !important;
   }
 }

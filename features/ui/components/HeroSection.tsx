@@ -27,7 +27,7 @@ export default function HeroSection() {
           transition={{ duration: 0.5 }}
           className="max-w-3xl"
         >
-          <h1 className="text-4xl leading-tight font-black text-white sm:text-6xl">
+          <h1 className="text-4xl leading-tight font-black text-foreground sm:text-6xl">
             Drop Season is{" "}
             <span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
               Every Season

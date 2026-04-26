@@ -1,6 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
-  LightningIcon,
   GlobeIcon,
   PaperPlaneIcon,
   CameraIcon,
@@ -23,14 +23,21 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="md:col-span-2">
-            <Link
-              href="/"
-              className="mb-3 flex items-center gap-2 text-xl font-bold"
-            >
-              <LightningIcon className="h-5 w-5 text-accent" />
-              <span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
-                SoleDrop
-              </span>
+            <Link href="/" className="mb-3 flex items-center">
+              <Image
+                src="/light.png"
+                alt="SoleDrop"
+                width={170}
+                height={46}
+                className="dark:hidden"
+              />
+              <Image
+                src="/dark.png"
+                alt="SoleDrop"
+                width={170}
+                height={46}
+                className="hidden dark:block"
+              />
             </Link>
             <p className="max-w-xs text-sm text-muted">
               Fresh kicks, no cap. Your go-to spot for the dopest sneaker drops.
@@ -40,7 +47,7 @@ export default function Footer() {
                 <a
                   key={i}
                   href="#"
-                  className="text-muted transition-colors duration-200 hover:text-white"
+                  className="text-muted transition-colors duration-200 hover:text-foreground"
                 >
                   <Icon className="h-5 w-5" />
                 </a>
@@ -50,7 +57,7 @@ export default function Footer() {
 
           {Object.entries(FOOTER_LINKS).map(([heading, links]) => (
             <div key={heading}>
-              <h4 className="mb-3 text-sm font-semibold text-white">
+              <h4 className="mb-3 text-sm font-semibold text-foreground">
                 {heading}
               </h4>
               <ul className="space-y-2">
@@ -58,7 +65,7 @@ export default function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-muted transition-colors hover:text-white"
+                      className="text-sm text-muted transition-colors hover:text-foreground"
                     >
                       {link.label}
                     </Link>

@@ -30,7 +30,7 @@ export default function TestimonialsSection() {
   return (
     <section className="px-4 py-16 sm:px-6">
       <div className="mx-auto max-w-7xl">
-        <h2 className="mb-8 text-2xl font-bold text-white sm:text-3xl">
+        <h2 className="mb-8 text-2xl font-bold text-foreground sm:text-3xl">
           Loved by Sneakerheads
         </h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -48,7 +48,7 @@ export default function TestimonialsSection() {
                   {testimonial.avatar}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-foreground">
                     {testimonial.name}
                   </p>
                   <p className="text-xs text-muted">{testimonial.handle}</p>

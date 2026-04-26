@@ -52,15 +52,15 @@ export default function ItemFilters({
           placeholder="Search drops... (fuzzy search)"
           value={query}
           onChange={(event) => onQueryChange(event.target.value)}
-          className="border-border bg-surface pl-9 text-white placeholder:text-muted"
+          className="border-border bg-surface pl-9 text-foreground placeholder:text-muted"
         />
       </div>
 
       <Select value={category} onValueChange={onCategoryChange}>
-        <SelectTrigger className="w-full border-border bg-surface text-white sm:w-44">
+        <SelectTrigger className="w-full border-border bg-surface text-foreground sm:w-44">
           <SelectValue placeholder="Category" />
         </SelectTrigger>
-        <SelectContent className="border-border bg-surface text-white">
+        <SelectContent className="border-border bg-surface text-foreground">
           {CATEGORIES.map((categoryValue) => (
             <SelectItem key={categoryValue} value={categoryValue}>
               {categoryValue}
@@ -70,10 +70,10 @@ export default function ItemFilters({
       </Select>
 
       <Select value={sort} onValueChange={onSortChange}>
-        <SelectTrigger className="w-full border-border bg-surface text-white sm:w-48">
+        <SelectTrigger className="w-full border-border bg-surface text-foreground sm:w-48">
           <SelectValue placeholder="Sort by" />
         </SelectTrigger>
-        <SelectContent className="border-border bg-surface text-white">
+        <SelectContent className="border-border bg-surface text-foreground">
           {SORT_OPTIONS.map((option) => (
             <SelectItem key={option.value} value={option.value}>
               {option.label}

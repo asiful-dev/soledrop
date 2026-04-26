@@ -48,7 +48,9 @@ export default function ManageItemsPage() {
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Manage Your Drops</h1>
+          <h1 className="text-2xl font-bold text-foreground">
+            Manage Your Drops
+          </h1>
           <p className="mt-1 text-sm text-muted">
             {myItems.length} items listed by you
           </p>
@@ -98,7 +100,7 @@ export default function ManageItemsPage() {
                     transition={{ delay: index * 0.03 }}
                     className="border-b border-border/70 text-sm last:border-b-0"
                   >
-                    <td className="max-w-65 px-4 py-3 font-medium text-white">
+                    <td className="max-w-65 px-4 py-3 font-medium text-foreground">
                       <p className="line-clamp-1">{item.title}</p>
                       <p className="line-clamp-1 text-xs text-muted">
                         {item.brand}

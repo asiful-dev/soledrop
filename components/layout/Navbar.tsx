@@ -1,10 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ListIcon, XIcon, LightningIcon } from "@phosphor-icons/react";
-import { useState } from "react";
+import { ListIcon, XIcon, MoonIcon, SunIcon } from "@phosphor-icons/react";
+import { useState, useSyncExternalStore } from "react";
+import { useTheme } from "next-themes";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { logout } from "@/lib/firebase/auth";
 import {
@@ -30,8 +32,21 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const { user, loading } = useAuth();
+  const { resolvedTheme, setTheme } = useTheme();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+
+  const isDark = mounted ? resolvedTheme === "dark" : true;
+  const logoSrc = isDark ? "/dark.png" : "/light.png";
+
+  const handleThemeToggle = () => {
+    setTheme(isDark ? "light" : "dark");
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -46,11 +61,15 @@ export default function Navbar() {
       className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md"
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-          <LightningIcon className="h-5 w-5 text-accent" />
-          <span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
-            SoleDrop
-          </span>
+        <Link href="/" className="flex items-center">
+          <Image
+            src={logoSrc}
+            alt="SoleDrop"
+            width={170}
+            height={46}
+            priority
+            className="object-contain"
+          />
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
@@ -58,7 +77,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-muted hover:text-white"
+              className="text-sm font-medium text-muted hover:text-foreground"
             >
               {link.label}
             </Link>
@@ -66,6 +85,21 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={handleThemeToggle}
+            type="button"
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? (
+              <SunIcon className="h-4 w-4" />
+            ) : (
+              <MoonIcon className="h-4 w-4" />
+            )}
+          </Button>
+
           {loading ? (
             <div className="h-8 w-8 animate-pulse rounded-full bg-surface" />
           ) : user ? (
@@ -82,7 +116,7 @@ export default function Navbar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="w-52 border-border bg-surface text-white"
+                className="w-52 border-border bg-surface text-foreground"
               >
                 <DropdownMenuLabel className="text-xs text-muted">
                   {user.email}
@@ -125,18 +159,35 @@ export default function Navbar() {
           )}
         </div>
 
-        <button
-          className="text-muted md:hidden"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          type="button"
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? (
-            <XIcon className="h-5 w-5" />
-          ) : (
-            <ListIcon className="h-5 w-5" />
-          )}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={handleThemeToggle}
+            type="button"
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? (
+              <SunIcon className="h-4 w-4" />
+            ) : (
+              <MoonIcon className="h-4 w-4" />
+            )}
+          </Button>
+
+          <button
+            className="text-muted"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            type="button"
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? (
+              <XIcon className="h-5 w-5" />
+            ) : (
+              <ListIcon className="h-5 w-5" />
+            )}
+          </button>
+        </div>
       </div>
 
       {mobileOpen && (
@@ -150,7 +201,7 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="text-sm font-medium text-muted hover:text-white"
+              className="text-sm font-medium text-muted hover:text-foreground"
             >
               {link.label}
             </Link>
@@ -159,13 +210,13 @@ export default function Navbar() {
             <>
               <Link
                 href="/items/add"
-                className="text-sm text-muted hover:text-white"
+                className="text-sm text-muted hover:text-foreground"
               >
                 Add Product
               </Link>
               <Link
                 href="/items/manage"
-                className="text-sm text-muted hover:text-white"
+                className="text-sm text-muted hover:text-foreground"
               >
                 Manage Products
               </Link>

@@ -41,7 +41,7 @@ export default function FeaturedDropsSection() {
     <section className="px-4 py-16 sm:px-6">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-white sm:text-3xl">
+          <h2 className="text-2xl font-bold text-foreground sm:text-3xl">
             Featured Drops
           </h2>
           <Link
@@ -77,7 +77,7 @@ export default function FeaturedDropsSection() {
                   </div>
 
                   <div className="space-y-3 p-4">
-                    <h3 className="line-clamp-1 font-semibold text-white">
+                    <h3 className="line-clamp-1 font-semibold text-foreground">
                       {item.title}
                     </h3>
                     <p className="line-clamp-2 text-sm text-muted">
