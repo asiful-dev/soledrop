@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SoleDrop
 
-## Getting Started
+SoleDrop is a full-stack Next.js application where authenticated users can list,
+browse, filter, and manage sneaker drops.
 
-First, run the development server:
+## Key Features
+
+- Firebase authentication (Email/Password and Google Sign-In)
+- Protected routes via Next.js proxy
+- Fuzzy search with Fuse.js across title, brand, category, and description
+- Category filtering and sorting by date, price, and rating
+- Cloudinary image upload support
+- NeonDB (Postgres) with Drizzle ORM
+- Zod validation and React Hook Form integration
+- shadcn/ui component system with Tailwind CSS
+- Rate limiting with Upstash Redis
+
+## Tech Stack
+
+| Layer         | Technology                  |
+| ------------- | --------------------------- |
+| Framework     | Next.js 16 (App Router)     |
+| Language      | TypeScript                  |
+| Styling       | Tailwind CSS v4 + shadcn/ui |
+| Auth          | Firebase                    |
+| Database      | NeonDB (Postgres)           |
+| ORM           | Drizzle ORM                 |
+| Storage       | Cloudinary                  |
+| Rate Limiting | Upstash Redis               |
+| Animations    | Framer Motion               |
+| Search        | Fuse.js                     |
+| Validation    | Zod + React Hook Form       |
+
+## Setup
+
+### Prerequisites
+
+- Node.js 18+
+- Firebase project with Email/Password and Google providers enabled
+- NeonDB database
+- Cloudinary account
+- Upstash Redis database
+
+### Installation
+
+1. Clone and install dependencies:
+
+```bash
+git clone https://github.com/yourusername/soledrop.git
+cd soledrop
+npm install
+```
+
+2. Create local environment file:
+
+```bash
+cp .env.sample .env.local
+```
+
+3. Fill all environment variables in `.env.local`.
+
+4. Push database schema:
+
+```bash
+npm run db:migrate
+```
+
+5. Run development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Route Summary
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Route             | Type      | Description                           |
+| ----------------- | --------- | ------------------------------------- |
+| `/`               | Public    | Landing page                          |
+| `/about`          | Public    | About page                            |
+| `/items`          | Public    | Item listing with filters and sorting |
+| `/items/[id]`     | Public    | Item details and related items        |
+| `/login`          | Public    | Login page                            |
+| `/register`       | Public    | Register page                         |
+| `/items/add`      | Protected | Add item form                         |
+| `/items/manage`   | Protected | Manage current user's items           |
+| `/api/items`      | API       | Get items, create item                |
+| `/api/items/[id]` | API       | Get item by id, delete item           |
+| `/api/upload`     | API       | Upload image to Cloudinary            |
+| `/api/session`    | API       | Set/clear session cookie              |
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run dev        # start dev server
+npm run lint       # run ESLint
+npm run build      # production build
+npm run db:migrate # run drizzle migration
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Deploy with Vercel:
 
-## Deploy on Vercel
+```bash
+npm i -g vercel
+vercel
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+After deployment:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Add all environment variables in Vercel project settings.
+2. Add your production domain to Firebase authorized domains.
