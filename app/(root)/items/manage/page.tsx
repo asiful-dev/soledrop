@@ -62,7 +62,7 @@ export default function ManageItemsPage() {
 
     try {
       await deleteItem(itemToDelete.id);
-      toast.success("Drop deleted 🗑️");
+      toast.success("Drop deleted");
       setItemToDelete(null);
     } catch {
       toast.error("Failed to delete. Try again.");

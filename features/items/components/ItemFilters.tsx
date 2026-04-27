@@ -12,11 +12,11 @@ import {
 
 const CATEGORIES = [
   "All",
-  "Jordan",
-  "Yeezy",
-  "Nike",
-  "Adidas",
-  "New Balance",
+  "Retro",
+  "Classy",
+  "Performance",
+  "Lifestyle",
+  "Luxury",
   "Other",
 ];
 
@@ -49,7 +49,7 @@ export default function ItemFilters({
       <div className="relative flex-1">
         <MagnifyingGlassIcon className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted" />
         <Input
-          placeholder="Search drops... (fuzzy search)"
+          placeholder="Search drops"
           value={query}
           onChange={(event) => onQueryChange(event.target.value)}
           className="border-border bg-surface pl-9 text-foreground placeholder:text-muted"

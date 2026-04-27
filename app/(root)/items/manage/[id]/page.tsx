@@ -242,7 +242,7 @@ export default function EditItemPage() {
         throw new Error(errorBody?.error || "Failed to update item");
       }
 
-      toast.success("Drop updated successfully ✨");
+      toast.success("Drop updated successfully");
       router.push("/items/manage");
     } catch (error: unknown) {
       toast.error(getErrorMessage(error));
@@ -383,7 +383,7 @@ export default function EditItemPage() {
                 </Label>
                 <Input
                   placeholder="e.g. Jordan 1 Retro High OG"
-                  className="h-12 bg-background border-border focus:ring-primary text-sm font-medium"
+                  className=" bg-background border-border focus:ring-primary text-sm font-medium"
                   {...register("title")}
                 />
                 {errors.title && (
@@ -404,7 +404,7 @@ export default function EditItemPage() {
                       })
                     }
                   >
-                    <SelectTrigger className="h-12 bg-background border-border">
+                    <SelectTrigger className="w-full bg-background border-border">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent className="bg-surface border-border">
@@ -412,7 +412,7 @@ export default function EditItemPage() {
                         <SelectItem
                           key={c}
                           value={c}
-                          className="focus:bg-primary/10"
+                          className="focus:bg-accent"
                         >
                           {c}
                         </SelectItem>
@@ -432,7 +432,7 @@ export default function EditItemPage() {
                   </Label>
                   <Input
                     placeholder="e.g. Nike"
-                    className="h-12 bg-background border-border focus:ring-primary text-sm font-medium"
+                    className=" bg-background border-border focus:ring-primary text-sm font-medium"
                     {...register("brand")}
                   />
                   {errors.brand && (
@@ -452,7 +452,7 @@ export default function EditItemPage() {
                     type="number"
                     step="0.01"
                     placeholder="199.99"
-                    className="h-12 bg-background border-border focus:ring-primary text-sm font-bold text-accent"
+                    className=" bg-background border-border focus:ring-primary text-sm font-bold text-accent"
                     {...register("price")}
                   />
                   {errors.price && (
@@ -469,7 +469,7 @@ export default function EditItemPage() {
                   <Input
                     type="number"
                     placeholder="e.g. 10"
-                    className="h-12 bg-background border-border focus:ring-primary text-sm font-medium"
+                    className=" bg-background border-border focus:ring-primary text-sm font-medium"
                     {...register("size")}
                   />
                   {errors.size && (
@@ -486,7 +486,7 @@ export default function EditItemPage() {
                 </Label>
                 <Input
                   placeholder="One line about this pair..."
-                  className="h-12 bg-background border-border focus:ring-primary text-sm"
+                  className=" bg-background border-border focus:ring-primary text-sm"
                   {...register("shortDescription")}
                 />
                 {errors.shortDescription && (
@@ -518,7 +518,7 @@ export default function EditItemPage() {
             <Button
               type="button"
               variant="outline"
-              className="h-12"
+              className=""
               onClick={() => router.push("/items/manage")}
               disabled={saving || isUploadingImage}
             >
@@ -527,7 +527,7 @@ export default function EditItemPage() {
             <Button
               type="submit"
               disabled={saving || isUploadingImage}
-              className="h-12 bg-primary hover:bg-primary-hover text-white text-sm font-bold uppercase tracking-widest"
+              className=" bg-primary hover:bg-primary-hover text-white text-sm font-bold uppercase tracking-widest"
             >
               {saving ? "Saving..." : "Save Changes"}
             </Button>

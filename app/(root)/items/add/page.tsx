@@ -191,7 +191,7 @@ export default function AddItemPage() {
         throw new Error(errorBody?.error || "Failed to add item");
       }
 
-      toast.success("Drop published! 🚀");
+      toast.success("Drop published!");
       router.push("/items/manage");
     } catch (error: unknown) {
       console.error("ADD_ITEM_ERROR:", error);
@@ -204,7 +204,7 @@ export default function AddItemPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
       <div className="mb-10 flex flex-col items-center text-center">
-        <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+        <div className="mb-4 inline-flex w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
           <PlusIcon size={24} weight="bold" />
         </div>
         <h1 className="heading-display text-4xl text-foreground">
@@ -341,7 +341,7 @@ export default function AddItemPage() {
                 </Label>
                 <Input
                   placeholder="e.g. Jordan 1 Retro High OG"
-                  className="h-12 bg-background border-border focus:ring-primary text-sm font-medium"
+                  className="bg-background border-border focus:ring-primary text-sm font-medium"
                   {...register("title")}
                 />
                 {errors.title && (
@@ -362,7 +362,7 @@ export default function AddItemPage() {
                       })
                     }
                   >
-                    <SelectTrigger className="h-12 bg-background border-border">
+                    <SelectTrigger className="w-full bg-background border-border">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent className="bg-surface border-border">
@@ -370,7 +370,7 @@ export default function AddItemPage() {
                         <SelectItem
                           key={c}
                           value={c}
-                          className="focus:bg-primary/10"
+                          className="focus:bg-accent"
                         >
                           {c}
                         </SelectItem>
@@ -390,7 +390,7 @@ export default function AddItemPage() {
                   </Label>
                   <Input
                     placeholder="e.g. Nike"
-                    className="h-12 bg-background border-border focus:ring-primary text-sm font-medium"
+                    className="bg-background border-border focus:ring-primary text-sm font-medium"
                     {...register("brand")}
                   />
                   {errors.brand && (
@@ -410,7 +410,7 @@ export default function AddItemPage() {
                     type="number"
                     step="0.01"
                     placeholder="199.99"
-                    className="h-12 bg-background border-border focus:ring-primary text-sm font-bold text-accent"
+                    className="bg-background border-border focus:ring-primary text-sm font-bold text-accent"
                     {...register("price")}
                   />
                   {errors.price && (
@@ -427,7 +427,7 @@ export default function AddItemPage() {
                   <Input
                     type="number"
                     placeholder="e.g. 10"
-                    className="h-12 bg-background border-border focus:ring-primary text-sm font-medium"
+                    className="bg-background border-border focus:ring-primary text-sm font-medium"
                     {...register("size")}
                   />
                   {errors.size && (
@@ -444,7 +444,7 @@ export default function AddItemPage() {
                 </Label>
                 <Input
                   placeholder="One line about this pair..."
-                  className="h-12 bg-background border-border focus:ring-primary text-sm"
+                  className="bg-background border-border focus:ring-primary text-sm"
                   {...register("shortDescription")}
                 />
                 {errors.shortDescription && (

@@ -280,7 +280,7 @@ export default function HeroSection() {
       </div>
 
       {/* ── RIGHT: Image carousel ──────────────────────────────────────── */}
-      <div className="relative h-[55vw] flex-1 overflow-hidden lg:h-auto">
+      <div className="relative h-[65vw] flex-1 overflow-hidden lg:h-auto">
         <AnimatePresence mode="popLayout">
           <motion.div
             key={`img-${current}`}
