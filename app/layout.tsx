@@ -23,10 +23,45 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SoleDrop",
+  metadataBase: new URL("https://soledrop.vercel.app"),
+  title: {
+    default: "SoleDrop — Level up your sole",
+    template: "%s | SoleDrop",
+  },
   description:
-    "The dopest sneaker marketplace for Gen-Z sneakerheads. Drop-ready. Always fresh.",
-  keywords: ["sneakers", "shoes", "kicks", "streetwear", "Gen Z"],
+    "The dopest sneaker marketplace for Gen-Z sneakerheads. Drop-ready. Always fresh. Verified kicks for the culture.",
+  keywords: [
+    "sneakers",
+    "shoes",
+    "kicks",
+    "streetwear",
+    "Gen Z",
+    "marketplace",
+  ],
+  openGraph: {
+    title: "SoleDrop — Level up your sole",
+    description:
+      "The premium sneakers marketplace. Verified kicks, exclusive drops, and more.",
+    url: "https://soledrop.vercel.app",
+    siteName: "SoleDrop",
+    images: [
+      {
+        url: "/og-image-soledrop.png",
+        width: 1200,
+        height: 630,
+        alt: "SoleDrop — Premium Sneakers Marketplace",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SoleDrop — Level up your sole",
+    description:
+      "The premium sneakers marketplace. Verified kicks, exclusive drops, and more.",
+    images: ["/og-image-soledrop.png"],
+  },
 };
 
 export default function RootLayout({
