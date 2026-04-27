@@ -38,7 +38,7 @@ export default function LoginPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),
       });
-      toast.success("Welcome back! 🔥");
+      toast.success("Welcome back!");
       router.push("/");
     } catch {
       toast.error("Invalid credentials. Try again.");
@@ -58,7 +58,7 @@ export default function LoginPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),
       });
-      toast.success("Logged in with Google ✅");
+      toast.success("Logged in with Google");
       router.push("/");
     } catch {
       toast.error("Google login failed. Try again.");
