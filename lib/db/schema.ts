@@ -14,7 +14,7 @@ export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
   firebaseUid: text("firebase_uid").notNull().unique(),
   email: text("email").notNull().unique(),
-  role: userRoleEnum("role").notNull().default("user"),
+  role: userRoleEnum("role").notNull().default("admin"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
