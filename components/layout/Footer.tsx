@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -5,51 +7,61 @@ import {
   PaperPlaneIcon,
   CameraIcon,
 } from "@phosphor-icons/react/ssr";
+import { useTheme } from "next-themes";
 
 const FOOTER_LINKS = {
   Shop: [
     { label: "All Drops", href: "/items" },
     { label: "New Arrivals", href: "/items?sort=new" },
+    { label: "Brands", href: "#" },
   ],
   Company: [
     { label: "About", href: "/about" },
     { label: "Contact", href: "#" },
+    { label: "Shipping", href: "#" },
+  ],
+  Social: [
+    { label: "Instagram", href: "#" },
+    { label: "Twitter", href: "#" },
+    { label: "Discord", href: "#" },
   ],
 };
 
 export default function Footer() {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark" || resolvedTheme === undefined;
+  const logoSrc = isDark ? "/dark.png" : "/light.png";
+
   return (
     <footer className="mt-auto border-t border-border bg-surface">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-          <div className="md:col-span-2">
-            <Link href="/" className="mb-3 flex items-center">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:py-16">
+        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          <div className="max-w-md">
+            <Link href="/" className="inline-flex items-center">
               <Image
-                src="/light.png"
+                src={logoSrc}
                 alt="SoleDrop"
-                width={170}
-                height={46}
-                className="dark:hidden"
-              />
-              <Image
-                src="/dark.png"
-                alt="SoleDrop"
-                width={170}
-                height={46}
-                className="hidden dark:block"
+                width={120}
+                height={42}
+                className="h-auto w-auto"
+                priority
               />
             </Link>
-            <p className="max-w-xs text-sm text-muted">
-              Fresh kicks, no cap. Your go-to spot for the dopest sneaker drops.
+
+            <p className="mt-6 text-sm leading-6 text-muted-foreground">
+              SoleDrop is the trusted marketplace for verified sneaker drops.
+              Clean curation, premium listings, and a better way to shop kicks.
             </p>
-            <div className="mt-4 flex gap-4">
+
+            <div className="mt-6 flex items-center gap-3">
               {[GlobeIcon, PaperPlaneIcon, CameraIcon].map((Icon, i) => (
                 <a
                   key={i}
                   href="#"
-                  className="text-muted transition-colors duration-200 hover:text-foreground"
+                  aria-label="Social link"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-all hover:border-primary hover:text-foreground"
                 >
-                  <Icon className="h-5 w-5" />
+                  <Icon className="h-4 w-4" />
                 </a>
               ))}
             </div>
@@ -57,15 +69,15 @@ export default function Footer() {
 
           {Object.entries(FOOTER_LINKS).map(([heading, links]) => (
             <div key={heading}>
-              <h4 className="mb-3 text-sm font-semibold text-foreground">
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.24em] text-muted-foreground">
                 {heading}
               </h4>
-              <ul className="space-y-2">
+              <ul className="mt-5 space-y-3">
                 {links.map((link) => (
-                  <li key={link.href}>
+                  <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-muted transition-colors hover:text-foreground"
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                     >
                       {link.label}
                     </Link>
@@ -76,9 +88,15 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-8 border-t border-border pt-6 text-center text-xs text-muted">
-          © {new Date().getFullYear()} SoleDrop. All rights reserved. Built with
-          🔥
+        <div className="mt-14 border-t border-border pt-6">
+          <div className="flex flex-col gap-3 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+              © {new Date().getFullYear()} SoleDrop. All rights reserved.
+            </p>
+            <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+              Verified kicks only
+            </p>
+          </div>
         </div>
       </div>
     </footer>

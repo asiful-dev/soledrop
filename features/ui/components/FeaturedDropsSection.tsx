@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowRightIcon } from "@phosphor-icons/react";
 import type { Item } from "@/lib/db/schema";
-import { Button } from "@/shared/ui-components/controls/button";
-import { Badge } from "@/shared/ui-components/controls/badge";
+import ItemCard from "@/components/shared/ItemCard";
 import SkeletonCard from "@/components/shared/SkeletonCard";
 
 export default function FeaturedDropsSection() {
@@ -17,7 +16,7 @@ export default function FeaturedDropsSection() {
 
     async function loadItems() {
       try {
-        const response = await fetch("/api/items?limit=6");
+        const response = await fetch("/api/items?limit=8");
         if (!response.ok) return;
         const data: Item[] = await response.json();
         if (mounted) {
@@ -38,62 +37,30 @@ export default function FeaturedDropsSection() {
   }, []);
 
   return (
-    <section className="px-4 py-16 sm:px-6">
+    <section className="px-4 py-20 sm:px-6">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-foreground sm:text-3xl">
-            Featured Drops
-          </h2>
+        <div className="mb-12 flex items-end justify-between">
+          <div>
+            <h2 className="heading-display text-4xl md:text-5xl text-foreground">
+              Featured Drops
+            </h2>
+            <p className="text-muted-foreground text-sm mt-2">
+              This week&apos;s freshest pairs
+            </p>
+          </div>
           <Link
             href="/items"
-            className="inline-flex items-center gap-1 text-sm text-primary hover:text-primary-hover"
+            className="group inline-flex items-center gap-1 text-[12px] font-bold uppercase tracking-wider text-primary hover:text-primary-hover transition-all"
           >
-            View All Drops <ArrowRightIcon className="h-4 w-4" />
+            VIEW ALL DROPS{" "}
+            <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {loading
-            ? Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
-            : items.map((item) => (
-                <div
-                  key={item.id}
-                  className="group overflow-hidden rounded-2xl border border-border bg-surface transition-all duration-300 hover:border-primary/50"
-                >
-                  <div className="relative h-52 bg-background">
-                    {item.imageUrl ? (
-                      <div
-                        className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                        style={{ backgroundImage: `url(${item.imageUrl})` }}
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center text-5xl">
-                        👟
-                      </div>
-                    )}
-                    <Badge className="absolute top-3 left-3 bg-primary/90 text-white">
-                      {item.category}
-                    </Badge>
-                  </div>
-
-                  <div className="space-y-3 p-4">
-                    <h3 className="line-clamp-1 font-semibold text-foreground">
-                      {item.title}
-                    </h3>
-                    <p className="line-clamp-2 text-sm text-muted">
-                      {item.shortDescription}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-accent">
-                        ${Number(item.price).toFixed(2)}
-                      </span>
-                      <Button variant="outline" size="sm" asChild>
-                        <Link href="/items">View</Link>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+            ? Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
+            : items.map((item) => <ItemCard key={item.id} item={item} />)}
         </div>
       </div>
     </section>

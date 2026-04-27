@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { registerSchema, type RegisterData } from "@/lib/validations/auth";
 import { registerWithEmail, loginWithGoogle } from "@/lib/firebase/auth";
+import { Eye, EyeSlash } from "@phosphor-icons/react";
 import { Button } from "@/shared/ui-components/controls/button";
 import { Input } from "@/shared/ui-components/controls/input";
 import { Label } from "@/shared/ui-components/controls/label";
@@ -18,6 +19,8 @@ export default function RegisterPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -78,14 +81,14 @@ export default function RegisterPage() {
             alt="SoleDrop"
             width={170}
             height={46}
-            className="h-10 w-auto dark:hidden"
+            className=" dark:hidden"
           />
           <Image
             src="/dark.png"
             alt="SoleDrop"
             width={170}
             height={46}
-            className="hidden h-10 w-auto dark:block"
+            className="hidden  dark:block"
           />
         </div>
         <h1 className="text-2xl font-bold text-foreground">
@@ -117,13 +120,22 @@ export default function RegisterPage() {
           <Label htmlFor="password" className="text-sm text-muted">
             Password
           </Label>
-          <Input
-            id="password"
-            type="password"
-            placeholder="••••••••"
-            className="border-border bg-background text-foreground placeholder:text-muted focus:border-primary"
-            {...register("password")}
-          />
+          <div className="relative">
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="••••••••"
+              className="pr-10 border-border bg-background text-foreground placeholder:text-muted focus:border-primary"
+              {...register("password")}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-foreground transition-colors"
+            >
+              {showPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           {errors.password && (
             <p className="text-xs text-red-400">{errors.password.message}</p>
           )}
@@ -133,13 +145,22 @@ export default function RegisterPage() {
           <Label htmlFor="confirmPassword" className="text-sm text-muted">
             Confirm Password
           </Label>
-          <Input
-            id="confirmPassword"
-            type="password"
-            placeholder="••••••••"
-            className="border-border bg-background text-foreground placeholder:text-muted focus:border-primary"
-            {...register("confirmPassword")}
-          />
+          <div className="relative">
+            <Input
+              id="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="••••••••"
+              className="pr-10 border-border bg-background text-foreground placeholder:text-muted focus:border-primary"
+              {...register("confirmPassword")}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-foreground transition-colors"
+            >
+              {showConfirmPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           {errors.confirmPassword && (
             <p className="text-xs text-red-400">
               {errors.confirmPassword.message}

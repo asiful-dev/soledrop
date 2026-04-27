@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
   ShieldIcon,
   TruckIcon,
@@ -11,49 +10,68 @@ import {
 const FEATURES = [
   {
     title: "Verified Kicks",
-    description: "Every listing is reviewed so you can shop confidently.",
+    description:
+      "Every listing is reviewed by our team of experts so you can shop with absolute confidence. No fakes allowed.",
     icon: ShieldIcon,
   },
   {
     title: "Lightning Fast Delivery",
-    description: "Quick shipping so your next pair lands without delay.",
+    description:
+      "We work with top-tier logistics partners to ensure your new pair lands on your doorstep without delay.",
     icon: TruckIcon,
   },
   {
     title: "Secure Checkout",
-    description: "Protected payments with trusted checkout flow.",
+    description:
+      "Your data and payments are protected with industry-leading encryption and trusted checkout flows.",
     icon: LockIcon,
   },
   {
     title: "Drop Alerts",
-    description: "Get notified before the next hyped release goes live.",
+    description:
+      "Never miss a hype release again. Get real-time notifications before the most anticipated drops go live.",
     icon: BellIcon,
   },
 ];
 
 export default function FeaturesSection() {
   return (
-    <section className="px-4 py-16 sm:px-6">
+    <section className="px-4 py-24 sm:px-6 bg-background">
       <div className="mx-auto max-w-7xl">
-        <h2 className="mb-8 text-2xl font-bold text-foreground sm:text-3xl">
+        <h2 className="heading-display text-4xl md:text-5xl text-foreground mb-16 px-4 border-l-4 border-primary">
           Why SoleDrop
         </h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {FEATURES.map((feature) => {
+
+        <div className="flex flex-col">
+          {FEATURES.map((feature, index) => {
             const Icon = feature.icon;
+            const number = (index + 1).toString().padStart(2, "0");
 
             return (
-              <motion.div
+              <div
                 key={feature.title}
-                whileHover={{ y: -4 }}
-                className="rounded-2xl border border-border bg-surface p-5 transition-all duration-300 hover:border-primary hover:shadow-[0_0_0_1px_color-mix(in_oklab,var(--color-primary)_20%,transparent)]"
+                className="group flex flex-col md:flex-row items-start md:items-center py-10 md:py-14 border-t border-border last:border-b transition-colors hover:bg-surface/50 px-4"
               >
-                <Icon className="h-5 w-5 text-accent" />
-                <h3 className="mt-3 text-base font-semibold text-foreground">
-                  {feature.title}
-                </h3>
-                <p className="mt-2 text-sm text-muted">{feature.description}</p>
-              </motion.div>
+                {/* Left Column: Number & Title */}
+                <div className="w-full md:w-[40%] flex items-center gap-8 mb-6 md:mb-0">
+                  <div className="relative shrink-0">
+                    <span className="heading-display text-8xl md:text-[120px] text-border/40 group-hover:text-primary/20 transition-colors select-none">
+                      {number}
+                    </span>
+                    <Icon className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-bold text-foreground">
+                    {feature.title}
+                  </h3>
+                </div>
+
+                {/* Right Column: Description */}
+                <div className="w-full md:w-[60%] md:pl-12">
+                  <p className="text-muted-foreground text-sm md:text-base leading-relaxed max-w-xl">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
             );
           })}
         </div>

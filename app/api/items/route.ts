@@ -5,6 +5,14 @@ import { items } from "@/lib/db/schema";
 import { itemSchema } from "@/lib/validations/item";
 import { applyRateLimit } from "@/lib/rate-limit";
 
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+
+  return "Failed to create item";
+}
+
 export async function GET(request: NextRequest) {
   try {
     const limitParam = request.nextUrl.searchParams.get("limit");
@@ -41,6 +49,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
+    console.log("CREATE_ITEM_BODY:", body);
     const parsed = itemSchema.safeParse(body);
 
     if (!parsed.success) {
@@ -61,9 +70,10 @@ export async function POST(request: NextRequest) {
       .returning();
 
     return NextResponse.json(newItem[0], { status: 201 });
-  } catch {
+  } catch (error: unknown) {
+    console.error("CREATE_ITEM_ERROR:", error);
     return NextResponse.json(
-      { error: "Failed to create item" },
+      { error: getErrorMessage(error) },
       { status: 500 },
     );
   }

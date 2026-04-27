@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
@@ -10,11 +10,24 @@ import { useItems } from "@/features/items/hooks/useItems";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import SkeletonCard from "@/components/shared/SkeletonCard";
 import { Button } from "@/shared/ui-components/controls/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/shared/ui-components/controls/dialog";
 
 export default function ManageItemsPage() {
   const { user, loading: authLoading } = useAuth();
   const { items, loading, deleteItem } = useItems();
   const router = useRouter();
+  const [itemToDelete, setItemToDelete] = useState<{
+    id: string;
+    title: string;
+  } | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -28,19 +41,21 @@ export default function ManageItemsPage() {
 
   const myItems = items.filter((item) => item.authorId === user.uid);
 
-  const handleDelete = async (id: string, title: string) => {
-    const confirmed = window.confirm(
-      `Delete "${title}"? This can't be undone.`,
-    );
-    if (!confirmed) {
+  const handleDelete = async () => {
+    if (!itemToDelete) {
       return;
     }
 
+    setIsDeleting(true);
+
     try {
-      await deleteItem(id);
+      await deleteItem(itemToDelete.id);
       toast.success("Drop deleted 🗑️");
+      setItemToDelete(null);
     } catch {
       toast.error("Failed to delete. Try again.");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -124,7 +139,9 @@ export default function ManageItemsPage() {
                         <Button
                           size="sm"
                           variant="destructive"
-                          onClick={() => handleDelete(item.id, item.title)}
+                          onClick={() =>
+                            setItemToDelete({ id: item.id, title: item.title })
+                          }
                         >
                           <TrashIcon className="h-4 w-4" />
                           Delete
@@ -138,6 +155,42 @@ export default function ManageItemsPage() {
           </div>
         </div>
       )}
+
+      <Dialog
+        open={Boolean(itemToDelete)}
+        onOpenChange={(open) => {
+          if (!open && !isDeleting) {
+            setItemToDelete(null);
+          }
+        }}
+      >
+        <DialogContent className="border-border bg-surface text-foreground">
+          <DialogHeader>
+            <DialogTitle>Delete this item?</DialogTitle>
+            <DialogDescription>
+              {itemToDelete
+                ? `Delete "${itemToDelete.title}"? This action cannot be undone.`
+                : "This action cannot be undone."}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="border-border bg-surface/80">
+            <Button
+              variant="outline"
+              onClick={() => setItemToDelete(null)}
+              disabled={isDeleting}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Deleting..." : "Delete"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

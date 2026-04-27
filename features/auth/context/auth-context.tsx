@@ -25,12 +25,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     const unsubscribe = onAuthChange((firebaseUser) => {
-      setUser(firebaseUser);
-      setLoading(false);
+      const syncSession = async () => {
+        try {
+          if (firebaseUser) {
+            const token = await firebaseUser.getIdToken();
+            await fetch("/api/session", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ token }),
+            });
+          } else {
+            await fetch("/api/session", { method: "DELETE" });
+          }
+        } catch (error) {
+          console.error("SESSION_SYNC_ERROR:", error);
+        } finally {
+          if (!isMounted) {
+            return;
+          }
+
+          setUser(firebaseUser);
+          setLoading(false);
+        }
+      };
+
+      void syncSession();
     });
 
-    return unsubscribe;
+    return () => {
+      isMounted = false;
+      unsubscribe();
+    };
   }, []);
 
   return (
