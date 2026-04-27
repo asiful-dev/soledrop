@@ -17,15 +17,19 @@ export const itemSchema = z.object({
     .positive("Price must be positive")
     .max(9999, "Price too high"),
   category: z.enum([
-    "Jordan",
-    "Yeezy",
-    "Nike",
-    "Adidas",
-    "New Balance",
+    "Retro",
+    "Classy",
+    "Performance",
+    "Lifestyle",
+    "Luxury",
     "Other",
   ]),
   brand: z.string().min(2, "Brand required"),
-  size: z.coerce.number().min(4).max(18).optional(),
+  size: z.preprocess(
+    (val) =>
+      val === "" || val === null || val === undefined ? undefined : val,
+    z.coerce.number().min(4).max(18).optional(),
+  ),
   imageUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
 });
 

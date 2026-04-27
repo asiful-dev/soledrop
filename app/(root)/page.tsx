@@ -2,6 +2,7 @@
 
 import { Suspense, lazy } from "react";
 import HeroSection from "@/features/ui/components/HeroSection";
+import BrandStrip from "@/features/ui/components/BrandStrip";
 import FeaturesSection from "@/features/ui/components/FeaturesSection";
 import TestimonialsSection from "@/features/ui/components/TestimonialsSection";
 import CTABannerSection from "@/features/ui/components/CTABannerSection";
@@ -15,6 +16,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <BrandStrip />
       <Suspense
         fallback={
           <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-16 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">

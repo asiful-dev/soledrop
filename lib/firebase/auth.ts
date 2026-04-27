@@ -4,7 +4,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
-  onAuthStateChanged,
+  onIdTokenChanged,
   type User,
 } from "firebase/auth";
 import { auth } from "./config";
@@ -22,4 +22,4 @@ export const loginWithGoogle = () => signInWithPopup(auth, googleProvider);
 export const logout = () => signOut(auth);
 
 export const onAuthChange = (callback: (user: User | null) => void) =>
-  onAuthStateChanged(auth, callback);
+  onIdTokenChanged(auth, callback);

@@ -1,20 +1,38 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { EyeIcon, PlusIcon, TrashIcon } from "@phosphor-icons/react";
+import {
+  EyeIcon,
+  PlusIcon,
+  TrashIcon,
+  PencilSimpleIcon,
+} from "@phosphor-icons/react";
 import { useItems } from "@/features/items/hooks/useItems";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import SkeletonCard from "@/components/shared/SkeletonCard";
 import { Button } from "@/shared/ui-components/controls/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/shared/ui-components/controls/dialog";
 
 export default function ManageItemsPage() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, isAdmin, loading: authLoading } = useAuth();
   const { items, loading, deleteItem } = useItems();
   const router = useRouter();
+  const [itemToDelete, setItemToDelete] = useState<{
+    id: string;
+    title: string;
+  } | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -22,25 +40,34 @@ export default function ManageItemsPage() {
     }
   }, [authLoading, user, router]);
 
-  if (authLoading || !user) {
+  useEffect(() => {
+    if (!authLoading && user && !isAdmin) {
+      toast.error("Admin access required to manage products.");
+      router.push("/");
+    }
+  }, [authLoading, user, isAdmin, router]);
+
+  if (authLoading || !user || !isAdmin) {
     return null;
   }
 
   const myItems = items.filter((item) => item.authorId === user.uid);
 
-  const handleDelete = async (id: string, title: string) => {
-    const confirmed = window.confirm(
-      `Delete "${title}"? This can't be undone.`,
-    );
-    if (!confirmed) {
+  const handleDelete = async () => {
+    if (!itemToDelete) {
       return;
     }
 
+    setIsDeleting(true);
+
     try {
-      await deleteItem(id);
+      await deleteItem(itemToDelete.id);
       toast.success("Drop deleted 🗑️");
+      setItemToDelete(null);
     } catch {
       toast.error("Failed to delete. Try again.");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -48,7 +75,9 @@ export default function ManageItemsPage() {
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Manage Your Drops</h1>
+          <h1 className="text-2xl font-bold text-foreground">
+            Manage Your Drops
+          </h1>
           <p className="mt-1 text-sm text-muted">
             {myItems.length} items listed by you
           </p>
@@ -98,7 +127,7 @@ export default function ManageItemsPage() {
                     transition={{ delay: index * 0.03 }}
                     className="border-b border-border/70 text-sm last:border-b-0"
                   >
-                    <td className="max-w-65 px-4 py-3 font-medium text-white">
+                    <td className="max-w-65 px-4 py-3 font-medium text-foreground">
                       <p className="line-clamp-1">{item.title}</p>
                       <p className="line-clamp-1 text-xs text-muted">
                         {item.brand}
@@ -119,10 +148,18 @@ export default function ManageItemsPage() {
                             View
                           </Link>
                         </Button>
+                        <Button size="sm" variant="outline" asChild>
+                          <Link href={`/items/manage/${item.id}`}>
+                            <PencilSimpleIcon className="h-4 w-4" />
+                            Edit
+                          </Link>
+                        </Button>
                         <Button
                           size="sm"
                           variant="destructive"
-                          onClick={() => handleDelete(item.id, item.title)}
+                          onClick={() =>
+                            setItemToDelete({ id: item.id, title: item.title })
+                          }
                         >
                           <TrashIcon className="h-4 w-4" />
                           Delete
@@ -136,6 +173,42 @@ export default function ManageItemsPage() {
           </div>
         </div>
       )}
+
+      <Dialog
+        open={Boolean(itemToDelete)}
+        onOpenChange={(open) => {
+          if (!open && !isDeleting) {
+            setItemToDelete(null);
+          }
+        }}
+      >
+        <DialogContent className="border-border bg-surface text-foreground">
+          <DialogHeader>
+            <DialogTitle>Delete this item?</DialogTitle>
+            <DialogDescription>
+              {itemToDelete
+                ? `Delete "${itemToDelete.title}"? This action cannot be undone.`
+                : "This action cannot be undone."}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="border-border bg-surface/80">
+            <Button
+              variant="outline"
+              onClick={() => setItemToDelete(null)}
+              disabled={isDeleting}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Deleting..." : "Delete"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

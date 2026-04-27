@@ -42,7 +42,7 @@ export default function ItemCard({ item, index = 0 }: ItemCardProps) {
 
       <div className="flex flex-1 flex-col gap-3 p-4">
         <div>
-          <h3 className="line-clamp-1 text-sm font-semibold text-white">
+          <h3 className="line-clamp-1 text-sm font-semibold text-foreground">
             {item.title}
           </h3>
           <p className="mt-1 line-clamp-2 text-xs text-muted">

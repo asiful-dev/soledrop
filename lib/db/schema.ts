@@ -5,7 +5,19 @@ import {
   decimal,
   timestamp,
   uuid,
+  pgEnum,
 } from "drizzle-orm/pg-core";
+
+export const userRoleEnum = pgEnum("user_role", ["admin", "user"]);
+
+export const users = pgTable("users", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  firebaseUid: text("firebase_uid").notNull().unique(),
+  email: text("email").notNull().unique(),
+  role: userRoleEnum("role").notNull().default("user"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
 
 export const items = pgTable("items", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -27,3 +39,6 @@ export const items = pgTable("items", {
 
 export type Item = typeof items.$inferSelect;
 export type NewItem = typeof items.$inferInsert;
+export type UserRole = (typeof userRoleEnum.enumValues)[number];
+export type AppUser = typeof users.$inferSelect;
+export type NewAppUser = typeof users.$inferInsert;
