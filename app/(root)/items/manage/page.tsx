@@ -5,7 +5,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { EyeIcon, PlusIcon, TrashIcon } from "@phosphor-icons/react";
+import {
+  EyeIcon,
+  PlusIcon,
+  TrashIcon,
+  PencilSimpleIcon,
+} from "@phosphor-icons/react";
 import { useItems } from "@/features/items/hooks/useItems";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import SkeletonCard from "@/components/shared/SkeletonCard";
@@ -20,7 +25,7 @@ import {
 } from "@/shared/ui-components/controls/dialog";
 
 export default function ManageItemsPage() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, isAdmin, loading: authLoading } = useAuth();
   const { items, loading, deleteItem } = useItems();
   const router = useRouter();
   const [itemToDelete, setItemToDelete] = useState<{
@@ -35,7 +40,14 @@ export default function ManageItemsPage() {
     }
   }, [authLoading, user, router]);
 
-  if (authLoading || !user) {
+  useEffect(() => {
+    if (!authLoading && user && !isAdmin) {
+      toast.error("Admin access required to manage products.");
+      router.push("/");
+    }
+  }, [authLoading, user, isAdmin, router]);
+
+  if (authLoading || !user || !isAdmin) {
     return null;
   }
 
@@ -134,6 +146,12 @@ export default function ManageItemsPage() {
                           <Link href={`/items/${item.id}`}>
                             <EyeIcon className="h-4 w-4" />
                             View
+                          </Link>
+                        </Button>
+                        <Button size="sm" variant="outline" asChild>
+                          <Link href={`/items/manage/${item.id}`}>
+                            <PencilSimpleIcon className="h-4 w-4" />
+                            Edit
                           </Link>
                         </Button>
                         <Button

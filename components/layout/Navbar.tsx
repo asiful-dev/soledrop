@@ -41,7 +41,7 @@ const NAV_LINKS = [
 ];
 
 export default function Navbar() {
-  const { user, loading } = useAuth();
+  const { user, isAdmin, loading } = useAuth();
   const { resolvedTheme, setTheme } = useTheme();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -157,18 +157,28 @@ export default function Navbar() {
                     {user.email}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="bg-border" />
-                  <DropdownMenuItem
-                    onClick={() => router.push("/items/add")}
-                    className="cursor-pointer hover:bg-primary/10"
-                  >
-                    <PlusCircleIcon /> <span>Add Product</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => router.push("/items/manage")}
-                    className="cursor-pointer hover:bg-primary/10"
-                  >
-                    <WrenchIcon /> <span>Manage Products</span>
-                  </DropdownMenuItem>
+                  {isAdmin && (
+                    <>
+                      <DropdownMenuItem
+                        onClick={() => router.push("/items/add")}
+                        className="cursor-pointer hover:bg-primary/10"
+                      >
+                        <PlusCircleIcon /> <span>Add Product</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => router.push("/items/manage")}
+                        className="cursor-pointer hover:bg-primary/10"
+                      >
+                        <WrenchIcon /> <span>Manage Products</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => router.push("/admin/users")}
+                        className="cursor-pointer hover:bg-primary/10"
+                      >
+                        <WrenchIcon /> <span>Manage Users</span>
+                      </DropdownMenuItem>
+                    </>
+                  )}
                   <DropdownMenuSeparator className="bg-border" />
                   <DropdownMenuItem
                     onClick={handleLogout}
@@ -248,18 +258,28 @@ export default function Navbar() {
           ))}
           {user ? (
             <>
-              <Link
-                href="/items/add"
-                className="text-sm text-muted hover:text-foreground"
-              >
-                Add Product
-              </Link>
-              <Link
-                href="/items/manage"
-                className="text-sm text-muted hover:text-foreground"
-              >
-                Manage Products
-              </Link>
+              {isAdmin && (
+                <>
+                  <Link
+                    href="/items/add"
+                    className="text-sm text-muted hover:text-foreground"
+                  >
+                    Add Product
+                  </Link>
+                  <Link
+                    href="/items/manage"
+                    className="text-sm text-muted hover:text-foreground"
+                  >
+                    Manage Products
+                  </Link>
+                  <Link
+                    href="/admin/users"
+                    className="text-sm text-muted hover:text-foreground"
+                  >
+                    Manage Users
+                  </Link>
+                </>
+              )}
               <button
                 onClick={handleLogout}
                 className="text-left text-sm text-red-400"

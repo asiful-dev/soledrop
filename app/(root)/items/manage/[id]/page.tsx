@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,9 +11,10 @@ import Image from "next/image";
 import {
   Image as ImageIcon,
   X as XIcon,
-  Plus as PlusIcon,
+  NotePencil as NotePencilIcon,
   Info,
 } from "@phosphor-icons/react";
+import type { Item } from "@/lib/db/schema";
 import { itemSchema, type ItemFormData } from "@/lib/validations/item";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import {
@@ -52,10 +53,20 @@ function getErrorMessage(error: unknown): string {
   return "Something went wrong";
 }
 
-export default function AddItemPage() {
+function normalizeCategory(value: string): CategoryValue {
+  return CATEGORIES.includes(value as CategoryValue)
+    ? (value as CategoryValue)
+    : "Other";
+}
+
+export default function EditItemPage() {
   const { user, isAdmin, loading: authLoading } = useAuth();
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const params = useParams<{ id: string }>();
+  const itemId = params.id;
+
+  const [loadingItem, setLoadingItem] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [previewSrc, setPreviewSrc] = useState("");
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -63,6 +74,7 @@ export default function AddItemPage() {
 
   const {
     register,
+    reset,
     handleSubmit,
     setValue,
     control,
@@ -86,14 +98,53 @@ export default function AddItemPage() {
 
   useEffect(() => {
     if (!authLoading && user && !isAdmin) {
-      toast.error("Admin access required to add products.");
+      toast.error("Admin access required to edit products.");
       router.push("/");
     }
   }, [authLoading, user, isAdmin, router]);
 
-  if (authLoading || !user || !isAdmin) {
-    return null;
-  }
+  useEffect(() => {
+    async function loadItem() {
+      if (!itemId || !user) {
+        return;
+      }
+
+      setLoadingItem(true);
+
+      try {
+        const response = await fetch(`/api/items/${itemId}`);
+        if (!response.ok) {
+          throw new Error("Failed to load item");
+        }
+
+        const item = (await response.json()) as Item;
+        if (item.authorId !== user.uid) {
+          toast.error("You can only edit your own items.");
+          router.push("/items/manage");
+          return;
+        }
+
+        reset({
+          title: item.title,
+          shortDescription: item.shortDescription,
+          fullDescription: item.fullDescription,
+          price: Number(item.price),
+          category: normalizeCategory(item.category),
+          brand: item.brand,
+          size: item.size ?? undefined,
+          imageUrl: item.imageUrl ?? "",
+        });
+        setPreviewSrc(item.imageUrl ?? "");
+      } catch (error: unknown) {
+        toast.error(getErrorMessage(error));
+        router.push("/items/manage");
+      } finally {
+        setLoadingItem(false);
+      }
+    }
+
+    void loadItem();
+  }, [itemId, user, router, reset]);
 
   const uploadToCloudinary = async (file: File) => {
     setIsUploadingImage(true);
@@ -168,16 +219,16 @@ export default function AddItemPage() {
       return;
     }
 
-    if (!user.email) {
+    if (!user?.email) {
       toast.error("Account email missing. Please re-login.");
       return;
     }
 
-    setLoading(true);
+    setSaving(true);
 
     try {
-      const response = await fetch("/api/items", {
-        method: "POST",
+      const response = await fetch(`/api/items/${itemId}`, {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...data,
@@ -188,30 +239,31 @@ export default function AddItemPage() {
 
       if (!response.ok) {
         const errorBody = await response.json().catch(() => null);
-        throw new Error(errorBody?.error || "Failed to add item");
+        throw new Error(errorBody?.error || "Failed to update item");
       }
 
-      toast.success("Drop published! 🚀");
+      toast.success("Drop updated successfully ✨");
       router.push("/items/manage");
     } catch (error: unknown) {
-      console.error("ADD_ITEM_ERROR:", error);
       toast.error(getErrorMessage(error));
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
+
+  if (authLoading || !user || !isAdmin || loadingItem) {
+    return null;
+  }
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
       <div className="mb-10 flex flex-col items-center text-center">
         <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-          <PlusIcon size={24} weight="bold" />
+          <NotePencilIcon size={24} weight="bold" />
         </div>
-        <h1 className="heading-display text-4xl text-foreground">
-          PUBLISH A DROP
-        </h1>
+        <h1 className="heading-display text-4xl text-foreground">EDIT DROP</h1>
         <p className="mt-2 text-muted-foreground">
-          List your premium kicks for the global culture.
+          Update your listing details and keep your drop fresh.
         </p>
       </div>
 
@@ -223,7 +275,6 @@ export default function AddItemPage() {
       >
         <form onSubmit={handleSubmit(onSubmit)} className="p-8 md:p-12">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-            {/* Left Column: Visuals */}
             <div className="space-y-6">
               <div className="space-y-2">
                 <Label className="label-caps text-xs text-muted-foreground">
@@ -311,6 +362,7 @@ export default function AddItemPage() {
                     </button>
                   )}
                 </AnimatePresence>
+
                 {imageUrl && !errors.imageUrl && (
                   <p className="mt-2 text-xs font-semibold text-primary">
                     Image uploaded and preview ready.
@@ -322,18 +374,8 @@ export default function AddItemPage() {
                   </p>
                 )}
               </div>
-
-              <div className="rounded-xl bg-primary/5 p-4 border border-primary/10">
-                <p className="text-[11px] font-medium text-muted-foreground leading-relaxed">
-                  <span className="text-primary font-bold">PRO TIP:</span> Use a
-                  clean background and good lighting to make your drop sell
-                  faster. Neutral gray or white backgrounds work best for
-                  high-end kicks.
-                </p>
-              </div>
             </div>
 
-            {/* Right Column: Details */}
             <div className="space-y-6">
               <div className="space-y-2">
                 <Label className="label-caps text-xs text-muted-foreground">
@@ -472,20 +514,22 @@ export default function AddItemPage() {
             </div>
           </div>
 
-          <div className="mt-12">
+          <div className="mt-12 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="h-12"
+              onClick={() => router.push("/items/manage")}
+              disabled={saving || isUploadingImage}
+            >
+              Cancel
+            </Button>
             <Button
               type="submit"
-              disabled={loading}
-              className="w-full h-14 bg-primary hover:bg-primary-hover text-white text-sm font-bold uppercase tracking-widest transition-all shadow-xl shadow-primary/20"
+              disabled={saving || isUploadingImage}
+              className="h-12 bg-primary hover:bg-primary-hover text-white text-sm font-bold uppercase tracking-widest"
             >
-              {loading ? (
-                <div className="flex items-center gap-2">
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                  PUBLISHING...
-                </div>
-              ) : (
-                "PUBLISH DROP"
-              )}
+              {saving ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </form>

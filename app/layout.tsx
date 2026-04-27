@@ -23,7 +23,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SoleDrop — Fresh Kicks. No Cap.",
+  title: "SoleDrop",
   description:
     "The dopest sneaker marketplace for Gen-Z sneakerheads. Drop-ready. Always fresh.",
   keywords: ["sneakers", "shoes", "kicks", "streetwear", "Gen Z"],

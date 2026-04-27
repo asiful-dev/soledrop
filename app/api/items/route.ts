@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { items } from "@/lib/db/schema";
 import { itemSchema } from "@/lib/validations/item";
 import { applyRateLimit } from "@/lib/rate-limit";
+import { requireAdmin } from "@/lib/auth/server-user";
 
 function getErrorMessage(error: unknown): string {
   if (error instanceof Error && error.message) {
@@ -36,6 +37,13 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const adminCheck = await requireAdmin(request);
+  if (adminCheck instanceof NextResponse) {
+    return adminCheck;
+  }
+
+  const { appUser } = adminCheck;
+
   const forwardedFor = request.headers.get("x-forwarded-for");
   const ip = forwardedFor?.split(",")[0]?.trim() || "anonymous";
   const rateCheck = await applyRateLimit(ip);
@@ -64,8 +72,8 @@ export async function POST(request: NextRequest) {
       .values({
         ...parsed.data,
         price: parsed.data.price.toString(),
-        authorId: body.authorId,
-        authorEmail: body.authorEmail,
+        authorId: appUser.firebaseUid,
+        authorEmail: appUser.email,
       })
       .returning();
 
